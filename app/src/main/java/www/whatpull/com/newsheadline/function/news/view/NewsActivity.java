@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import www.whatpull.com.newsheadline.R;
 import www.whatpull.com.newsheadline.function.news.adapter.NewsRecyclerAdapter;
@@ -56,8 +57,6 @@ public class NewsActivity extends AppCompatActivity implements NewsPresenter.Vie
         switch (item.getItemId()) {
             case R.id.refresh:
                 if(presenter.getNetworkError()) {
-                    presenter.setModel(API_KEY);
-                } else {
                     presenter.setModel(API_KEY);
                 }
                 return false;

@@ -1,7 +1,6 @@
 package www.whatpull.com.newsheadline.function.news.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,11 +13,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -119,47 +120,47 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
 
         List<String> desFacet = result.getDes_facet();
-        StringBuffer sb = new StringBuffer("Description facet : ");
+        StringBuffer sb = new StringBuffer("1). Description facet : ").append("\n");
         for(String facet : desFacet) {
             if(StringUtils.isNoneBlank(facet)) {
-                sb.append(facet).append(", ");
+                sb.append(facet).append("\n");
             }
         }
         if(StringUtils.isNoneBlank(sb.toString())) {
-            this.desFacet.setText(sb.toString().substring(0, sb.lastIndexOf(",")));
+            this.desFacet.setText(sb.toString());
         }
 
         List<String> orgFacet = result.getOrg_facet();
-        sb = new StringBuffer("Organization facet : ");
+        sb = new StringBuffer("2). Organization facet : ").append("\n");
         for(String facet : orgFacet) {
             if(StringUtils.isNoneBlank(facet)) {
-                sb.append(facet).append(", ");
+                sb.append(facet).append("\n");
             }
         }
         if(StringUtils.isNoneBlank(sb.toString())) {
-            this.orgFacet.setText(sb.toString().substring(0, sb.lastIndexOf(",")));
+            this.orgFacet.setText(sb.toString());
         }
 
         List<String> perFacet = result.getPer_facet();
-        sb = new StringBuffer("Person facet : ");
+        sb = new StringBuffer("3). Person facet : ").append("\n");
         for(String facet : perFacet) {
             if(StringUtils.isNoneBlank(facet)) {
-                sb.append(facet).append(", ");
+                sb.append(facet).append("\n");
             }
         }
         if(StringUtils.isNoneBlank(sb.toString())) {
-            this.perFacet.setText(sb.toString().substring(0, sb.lastIndexOf(",")));
+            this.perFacet.setText(sb.toString());
         }
 
         List<String> geoFacet = result.getGeo_facet();
-        sb = new StringBuffer("Geolocation facet : ");
+        sb = new StringBuffer("4). Geolocation facet : ").append("\n");
         for(String facet : geoFacet) {
             if(StringUtils.isNoneBlank(facet)) {
-                sb.append(facet).append(", ");
+                sb.append(facet).append("\n");
             }
         }
         if(StringUtils.isNoneBlank(sb.toString())) {
-            this.geoFacet.setText(sb.toString().substring(0, sb.lastIndexOf(",")));
+            this.geoFacet.setText(sb.toString());
         }
 
         String url = "";
@@ -170,13 +171,21 @@ public class NewsDetailActivity extends AppCompatActivity {
             }
         }
         if(StringUtils.isNoneBlank(url)) {
-            Glide.with(this).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+            Glide.with(this).load(url).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    media.setImageBitmap(resource);
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    progressBar.setVisibility(View.GONE);
+                    return false;
                 }
-            });
-        } else { // 이미지가 없는경우
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    progressBar.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(media);
+        } else {
             media.setImageResource(R.drawable.no_image);
         }
 

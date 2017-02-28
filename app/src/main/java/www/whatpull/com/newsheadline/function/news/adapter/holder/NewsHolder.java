@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class NewsHolder extends RecyclerView.ViewHolder {
     public ImageView thumbnail;
     public TextView title, section;
     public NewsModelResult currentResult;
+    public ProgressBar progress;
 
     public NewsHolder(View view) {
         super(view);
@@ -37,5 +39,6 @@ public class NewsHolder extends RecyclerView.ViewHolder {
         thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
         title = (TextView) view.findViewById(R.id.title);
         section = (TextView) view.findViewById(R.id.section);
+        progress = (ProgressBar) view.findViewById(R.id.progress);
     }
 }

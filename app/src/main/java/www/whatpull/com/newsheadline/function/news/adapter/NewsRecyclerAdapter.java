@@ -1,17 +1,18 @@
 package www.whatpull.com.newsheadline.function.news.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,13 +66,21 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsHolder> {
         }
 
         if(StringUtils.isNoneBlank(url)) {
-            Glide.with(context).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+            final ProgressBar progressBar = holder.progress;
+            Glide.with(context).load(url).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    holder.thumbnail.setImageBitmap(resource);
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    progressBar.setVisibility(View.GONE);
+                    return false;
                 }
-            });
-        } else { // 이미지가 없는경우
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    progressBar.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(holder.thumbnail);
+        } else {
             holder.thumbnail.setImageResource(R.drawable.no_image);
         }
 
