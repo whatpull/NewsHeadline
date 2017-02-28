@@ -36,3 +36,15 @@
 -dontwarn java.io.**
 -dontwarn java.nio.**
 -dontwarn okio.**
+
+-dontnote android.net.http.HttpResponseCache
+-dontnote android.net.http.SslCertificate$DName
+-dontnote android.net.http.SslError
+-dontnote android.net.http.SslCertificate
+-dontnote org.apache.http.params.CoreConnectionPNames
+-dontnote org.apache.http.params.HttpConnectionParams
+-dontnote org.apache.http.params.HttpParams
+-dontnote org.apache.http.conn.scheme.SocketFactory
+-dontnote org.apache.http.conn.scheme.LayeredSocketFactory
+-dontnote org.apache.http.conn.scheme.HostNameResolver
+-dontnote org.apache.http.conn.ConnectTimeoutException

@@ -23,7 +23,7 @@ import www.whatpull.com.newsheadline.function.news.presenter.NewsPresenterImpl;
 public class NewsActivity extends AppCompatActivity implements NewsPresenter.View {
 
     private static final String TAG = "NewsActivity";
-    private static final String API_KEY = "";
+    private static final String API_KEY = "cf23f0334a174fff975fc2400ccbfdd9";
     private Toolbar toolbar;
     private NewsPresenter presenter;
     private RecyclerView mRecyclerView;
