@@ -17,14 +17,14 @@
 #}
 
 ###### Retrofit2
-# Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
-# Platform used when running on Java 8 VMs. Will not be used at runtime.
 -dontwarn retrofit2.Platform$Java8
-# Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
-# Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
+###### converter-gson
+-keep class com.google.gson.** { *; }
+-keep class com.google.inject.** { *; }
 
 ###### Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -33,18 +33,40 @@
   public *;
 }
 
--dontwarn java.io.**
--dontwarn java.nio.**
+###### OKHttp
+-keep class okhttp3.**
+-keep interface okhttp3.**
+-dontwarn okhttp3.**
 -dontwarn okio.**
+-keep class okio.** { *; }
 
--dontnote android.net.http.HttpResponseCache
--dontnote android.net.http.SslCertificate$DName
--dontnote android.net.http.SslError
--dontnote android.net.http.SslCertificate
--dontnote org.apache.http.params.CoreConnectionPNames
--dontnote org.apache.http.params.HttpConnectionParams
--dontnote org.apache.http.params.HttpParams
--dontnote org.apache.http.conn.scheme.SocketFactory
--dontnote org.apache.http.conn.scheme.LayeredSocketFactory
--dontnote org.apache.http.conn.scheme.HostNameResolver
--dontnote org.apache.http.conn.ConnectTimeoutException
+###### v7
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+
+###### design
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+
+###### cardview
+-keep class android.support.v7.widget.RoundRectDrawable { *; }
+
+###### recyclerview
+-keep public class * extends android.support.v7.widget.RecyclerView$LayoutManager {
+    public <init>(...);
+}
+
+###### duplicate
+-dontnote android.net.http.**
+-dontnote org.apache.commons.codec.**
+-dontnote org.apache.http.**
+
+###### dynamically
+-dontwarn sun.misc.Unsafe
+-dontwarn com.android.org.conscrypt.SSLParametersImpl
+-dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl
+-dontwarn dalvik.system.CloseGuard
+-dontwarn sun.security.ssl.SSLContextImpl
+-keep class com.google.gson.internal.UnsafeAllocator { java.lang.reflect.Field theUnsafe; }
